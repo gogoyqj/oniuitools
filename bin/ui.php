@@ -74,7 +74,7 @@
 				while(file_exists($filename)) {
 					$html = file_get_contents($filename);
 					$cname = preg_match("/<h1>[^<]+<\/h1>/m", $html, $cnamearr);
-					$list .= '<li><a href="' . $filename .'">' . preg_replace(array("/<h1>/", "/<\/h1>/"), array("",""), $cnamearr[0]) .'</a></li>' . "\n";
+					$list .= '<li><a href="' . $prefix . ".ex." . ($i > 0 ? $i . "." : "") ."html" .'">' . preg_replace(array("/<h1>/", "/<\/h1>/"), array("",""), $cnamearr[0]) .'</a></li>' . "\n";
 					$i++;
 					$filename = $tdir . $prefix . ".ex." . $i .".html";
 				}
