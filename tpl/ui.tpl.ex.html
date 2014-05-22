@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>#uiname#组件</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="../avalon.js"></script>
+        <script src="../highlight/shCore.js"></script>
+        <script>
+            require(["#uiname#/avalon.#uiname#"], function() {
+                avalon.define("test", function(vm) {
+                    vm.#uiname# = {
+                    }
+                    vm.$skipArray = ["#uiname#"]
+                })
+                avalon.scan()
+            })
+        </script>
+    </head>
+    <body ms-controller="test">
+        <h1>#uiname#</h1>
+        <div ms-widget="#uiname#"></div>
+        <pre class="brush:html;gutter:false;toolbar:false">
+        </pre>
+    </body>
+</html>

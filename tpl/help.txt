@@ -1,0 +1,10 @@
+Do you mean "help"?
+
+Please make sure that you are in the correct directory
+
+comman list:
+	ui create uiname: a dir names uiname will be created in this dir with base files in dir uiname
+	ui addex uiname: an example file names avalon.uiname.ex.i.html will be created if this file is already exist, avalon.uiname.ex.${i+1}.html instead
+	ui buildex uiname: to build all those example files, write source code into <pre xxx></pre>
+	ui builddoc uiname: to build a example-links list then write into the avalon.uiname.doc.html if <!--ex list start--> and <!--ex list end--> comments exist
+	ui help or any other cmd besides those upside: show help infomation
