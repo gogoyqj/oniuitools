@@ -40,7 +40,14 @@
 				while(file_exists($tdir . $prefix . '.ex.' . $i . ".html")) {
 					$i++;
 				}
-				file_put_contents($tdir . $prefix . '.ex.' . $i . ".html", $extpl);
+				$res = $extpl;
+				if(isset($argv[3])) {
+					if(!file_exists($tdir . $prefix . "." . $argv[3] . ".html")) {
+						die($argv[3] . ".html is not found ~ -_-||");
+					}
+					$res = file_get_contents($tdir . $prefix . "." . $argv[3] . ".html");
+				}
+				file_put_contents($tdir . $prefix . '.ex.' . $i . ".html", $res);
 
 				exit("file " . $prefix . '.ex.' . $i . ".html" . " add succuss ~ ^_^");
 			// 编译例子，把例子的代码自动写到pre里面
@@ -136,6 +143,7 @@
 					if(isset($names)) {
 						array_push($marr, array(
 							'name' => $names[0], 
+							"default" => "接口函数",
 							"description" => trim($u[1]))
 						);
 					}
@@ -166,6 +174,7 @@
 						if($name) {
 							array_push($optMethod, array(
 								"name" => $fname[0],
+								"default" => "配置函数",
 								"description" => $s
 							));
 						}

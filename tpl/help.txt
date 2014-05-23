@@ -3,8 +3,16 @@ Do you mean "help"?
 Please make sure that you are in the correct directory
 
 comman list:
-	ui create uiname: a dir names uiname will be created in this dir with base files in dir uiname
-	ui addex uiname: an example file names avalon.uiname.ex.i.html will be created if this file is already exist, avalon.uiname.ex.${i+1}.html instead
-	ui buildex uiname: to build all those example files, write source code into <pre xxx></pre>
-	ui builddoc uiname: to build a example-links list then write into the avalon.uiname.doc.html if <!--ex list start--> and <!--ex list end--> comments exist
-	ui help or any other cmd besides those upside: show help infomation
+  ui create uiname: a dir names uiname will be created in this dir with base files in dir uiname
+
+  ui addex uiname: an example file names avalon.uiname.ex.i.html will be created if this file is already exist, avalon.uiname.ex.${i+1}.html instead
+
+  ui addex uiname template: template should be "ex" or "ex.${i}" like, means using avalon.uiname.ex.html or avalon.uiname.ex.${i}.html as template to add a new example page
+
+  ui buildex uiname: to build all those example files, write source code into <pre xxx></pre>
+
+  ui builddoc uiname: build a doc
+    1, to generate a example-links list then write into the avalon.uiname.doc.html if <!--ex list start--> and <!--ex list end--> comments exist
+    2, if <!--auto doc start--> and <!--auto doc end--> comments exist, comments in avalon.uiname.js "propertyName: defaultValue, //@param description" or "//@method methodName(args) description" or "//@optMethod methodName(args) description" like comments will be generated into doc.html
+
+  ui help or any other cmd besides those upside: show help infomation
