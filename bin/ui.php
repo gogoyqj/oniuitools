@@ -82,6 +82,7 @@
 					exit($docname . " is not found ~ -_-||");
 				}
 				$html = file_get_contents($docname);
+				// 提取例子列表
 				$s = "<!--ex list start-->";
 				$e = "<!--ex list end-->";
 				$front = explode($s, $html);
@@ -89,6 +90,28 @@
 				if(count($front) == 2 && count($end) == 2) {
 					$res = $front[0] . $s . "\n<ol>\n" .$list . "</ol>\n" . $e . $end[1];
 					file_put_contents($docname, $res);
+					$html = $res;
+				}
+				// 提取参数、接口文档说明
+				// 提取例子列表
+				$s = "<!--auto doc start-->";
+				$e = "<!--auto doc end-->";
+				$front = explode($s, $html);
+				$end = explode($e, $html);
+				if(count($front) == 2 && count($end) == 2) {
+					$docHTML = '';
+					$js = file_get_contents($tdir . $prefix . ".js");
+					$doc = docGetter($js);
+					foreach ($doc as $key => $value) {
+						# code...
+						foreach ($value as $k => $v) {
+							# code...
+							$docHTML .= render($v);
+						}
+					}
+					$res = $front[0] . $s . "\n" . $docHTML . $e . $end[1];
+					file_put_contents($docname, $res);
+					$html = $res;
 				}
 				exit($docname . " is build succuss ~ ^_^");
 			}
@@ -96,4 +119,66 @@
 		// help
 		echo file_get_contents($tpldir . "help.txt");
 	}
+	function render($arr)
+	{
+		# code...
+		return "<tr>\n    <td>" . $arr["name"] . "</td><td>" . (isset($arr["default"]) ? $arr["default"] : "") .  "</td><td>" . $arr["description"] . "</td></tr>\n";
+	}
+	function docGetter($content) {
+		// 提取非defaus里面的接口说明
+		preg_match_all("/\/\/@method[^\n]+/", $content, $methods);
+		$marr = array();
+		if(isset($methods) && isset($methods[0])) {
+			foreach ($methods[0] as $key => $value) {
+				$u = explode("//@method", $value);
+				if(count($u) == 2) {
+					preg_match("/[a-zA-Z0-9_$]+/", trim($u[1]), $names);
+					if(isset($names)) {
+						array_push($marr, array(
+							'name' => $names[0], 
+							"description" => trim($u[1]))
+						);
+					}
+				}
+			}
+		}
+		// 提取defaults里面的说明
+		$defaults = explode("widget.defaults = {", $content);
+		$optarr = array();
+		$optMethod = array();
+		if(count($defaults) == 2) {
+			$ps = explode("\n", $defaults[1]);
+			foreach ($ps as $key => $value) {
+				# get method and options
+				$doced = preg_match("/(\/\/@param)|(\/\/@optMethod)/", $value, $type);
+				if($doced) {
+					$u = explode($type[0], $value);
+					if($type[0] == "//@param") {
+						$f1 = explode(":", trim($u[0]));
+						array_push($optarr, array(
+							"name" => preg_replace("/[^a-zA-Z0-9_$]+/", "", $f1[0]),
+							"default" => preg_replace("/,/", "", $f1[1]),
+							"description" => $u[1]
+						));
+					} else if($type[0] == "//@optMethod") {
+						$s = trim($u[1]);
+						$name = preg_match("/^[a-zA-Z0-9_$]+/", $s, $fname);
+						if($name) {
+							array_push($optMethod, array(
+								"name" => $fname[0],
+								"description" => $s
+							));
+						}
+					}
+				}
+			}
+		}
+		return array(
+			"arg" => $optarr,
+			"argMethod" => $optMethod,
+			"method" => $marr
+		);
+	}
+
+
 ?>
