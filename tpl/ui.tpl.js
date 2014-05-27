@@ -24,23 +24,26 @@ define(["avalon", "text!./avalon.#uiname#.html"], function(avalon, tmpl) {
             vm.widgetElement = element
             vm.$skipArray = ["widgetElement", "template"]
 
+            var inited
             vm.$init = function() {
+                if(inited) return
+                inited = true
 
+                avalon.scan(element, [vmodel].concat(vmodels))
             }
             vm.$remove = function() {
                 element.innerHTML = element.textContent = ""
             }
 
-            /**
-              * @method apiName
-              * @param args1
-              */
+            //@method apiName(argx) description
 
         })
       
         return vmodel
     }
-
+    //add args like this:
+    //argName: defaultValue, \/\/@param description
+    //methodName: code, \/\/@optMethod optMethodName(args) description 
     widget.defaults = {
         getTemplate: function(tmpl, opts) {
             return tmpl
