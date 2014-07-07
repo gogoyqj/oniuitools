@@ -17,6 +17,7 @@
 			$tpl = preg_replace($hlarr, $rplarr, file_get_contents($tpldir . "ui.tpl.html"));
 			$doctpl = preg_replace($hlarr, $rplarr, file_get_contents($tpldir . "ui.tpl.doc.html"));
 			$extpl = preg_replace($hlarr, $rplarr, file_get_contents($tpldir . "ui.tpl.ex.html"));
+			$sasstpl = preg_replace($hlarr, $rplarr, file_get_contents($tpldir . "ui.tpl.css"));
 
 			if($cmd != "create" && !file_exists($uiname)) {
 				exit($uiname . " is not found ~ -_-||");
@@ -30,6 +31,8 @@
 					file_put_contents($tdir . $prefix . ".html", $tpl);
 					file_put_contents($tdir . $prefix . ".doc.html", $doctpl);
 					file_put_contents($tdir . $prefix . ".ex.html", $extpl);
+					file_put_contents($tdir . $prefix . ".scss", $sasstpl);
+					file_put_contents($tdir . $prefix . ".css", "");
 					exit($uiname . " is created succuss ~ ^_^");
 				} else {
 					exit($uiname . " is already created ~ -_-||");
@@ -120,11 +123,18 @@
 					file_put_contents($docname, $res);
 					$html = $res;
 				}
+				buildCss($uiname);
 				exit($docname . " is build succuss ~ ^_^");
+			} else if($cmd == "buildcss") {
+				buildCss($uiname);
 			}
 		}
 		// help
 		echo file_get_contents($tpldir . "help.txt");
+	}
+	function buildCss($tabName) {
+		system("sass " . $tabName . "/avalon." . $tabName . ".scss " . $tabName . "/avalon." . $tabName . ".css");
+		exit("build finished ~ ^_^");
 	}
 	function render($arr)
 	{
@@ -132,7 +142,7 @@
 		return "<tr>\n    <td>" . $arr["name"] . "</td><td>" . (isset($arr["default"]) ? $arr["default"] : "") .  "</td><td>" . $arr["description"] . "</td></tr>\n";
 	}
 	function docGetter($content) {
-		// 提取非defaus里面的接口说明
+		// 提取非defaults里面的接口说明
 		preg_match_all("/\/\/@method[^\n]+/", $content, $methods);
 		$marr = array();
 		if(isset($methods) && isset($methods[0])) {

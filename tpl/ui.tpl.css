@@ -1,0 +1,9 @@
+$pf : ".ui-#uiname#";
+
+#{$pf} {
+	// current style
+	// means #{$pr}-bar
+	&-class {
+
+	}
+}

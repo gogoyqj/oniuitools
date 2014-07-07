@@ -1,1 +1,3 @@
-php d:/wamp/www/mymatser/oniuitools/bin/ui.php $1 $2 $3 $4
+#!D:/wamp/bin/php/php5.5.12/php.exe
+<?php
+	include "ui.php";
