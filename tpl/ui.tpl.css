@@ -1,9 +1,17 @@
-$pf : ".ui-#uiname#";
+@charset "utf-8";
+@import "../chameleon/oniui-theme";
+$uiname : ".ui-#uiname#";
+@if($oinui-theme == smoothness) {
+	$#uiname#: (
+		bg: #fff,
+		borderColor:#aaaaaa
+	) !global
+}
 
-#{$pf} {
+#{$uiname} {
 	// current style
-	// means #{$pr}-bar
+	// means #{$uiname}-bar
 	&-class {
-
+		border: 1px solid map-get($#uiname#, borderColor);
 	}
 }

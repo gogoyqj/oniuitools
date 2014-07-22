@@ -1,8 +1,8 @@
 /**
-  * #uiname#组件，
+  * @description #uiname#组件，
   *
   */
-define(["avalon", "text!./avalon.#uiname#.html", "css!./avalon.#uiname#.css"], function(avalon, template) {
+define(["avalon", "text!./avalon.#uiname#.html", "css!./avalon.#uiname#.css", "css!../chameleon/oniui-common.css"], function(avalon, template) {
 
     var widget = avalon.ui.#uiname# = function(element, data, vmodels) {
         var options = data.#uiname#Options
