@@ -1,0 +1,1 @@
+2	ui组件	D:\wamp\www\mymatser\avalon.oniui\my.ui
