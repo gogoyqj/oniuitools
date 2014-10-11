@@ -73,7 +73,7 @@
 			// 添加例子
 			} else if($cmd == "addex") {
 				$i = 1;
-				while(file_exists($tdir . $prefix . '.ex.' . $i . ".html")) {
+				while(file_exists($tdir . $prefix . '.ex' . $i . ".html")) {
 					$i++;
 				}
 				$res = $extpl;
@@ -83,9 +83,9 @@
 					}
 					$res = file_get_contents($tdir . $prefix . "." . $argv[3] . ".html");
 				}
-				file_put_contents($tdir . $prefix . '.ex.' . $i . ".html", $res);
+				file_put_contents($tdir . $prefix . '.ex' . $i . ".html", $res);
 
-				_log("file " . $prefix . '.ex.' . $i . ".html" . " add succuss ~ ^_^\n");
+				_log("file " . $prefix . '.ex' . $i . ".html" . " add succuss ~ ^_^\n");
 			// 编译例子，把例子的代码自动写到pre里面
 			} else if($cmd == "buildex") {
 				$filename = $tdir . $prefix . ".ex.html";
@@ -108,7 +108,7 @@
 					}
 
 					$i++;
-					$filename = $tdir . $prefix . ".ex." . $i . ".html";
+					$filename = $tdir . $prefix . ".ex" . $i . ".html";
 				}
 				_log("build " . $i . " examples ~ ^_^\n");
 			// 生成文档，现在只做了一个生成例子列表的逻辑，之后接口说明什么的，可以考虑自动生成
@@ -122,12 +122,12 @@
 					$cname = preg_match("/(<h1[^>]*>)([^<]+)(<\/h1>)/m", $html, $cnamearr);
                     if(count($cnamearr) < 3) {
                         $i++;
-                        $filename = $tdir . $prefix . ".ex." . $i .".html";
+                        $filename = $tdir . $prefix . ".ex" . $i .".html";
                         continue;
                     }
-					$list .= '<li><a href="' . $prefix . ".ex." . ($i > 0 ? $i . "." : "") ."html" .'">' . preg_replace(array("/<h1>/", "/<\/h1>/"), array("",""), $cnamearr[2]) .'</a></li>' . "\n";
+					$list .= '<li><a href="' . $prefix . ".ex" . ($i > 0 ? $i . "." : ".") ."html" .'">' . preg_replace(array("/<h1>/", "/<\/h1>/"), array("",""), $cnamearr[2]) .'</a></li>' . "\n";
 					$i++;
-					$filename = $tdir . $prefix . ".ex." . $i .".html";
+					$filename = $tdir . $prefix . ".ex" . $i .".html";
 				}
 				if(!file_exists($docname)) {
 					//_log($docname . " is not found ~ -_-||\n");
