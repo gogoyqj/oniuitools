@@ -184,6 +184,7 @@
 						$res = preg_replace("/<\/head>/", "<meta name=\"description\" content=\"" . $doc["description"] . "\"/>\n</head>", $res);
 					}
 					$res = preg_replace("/<fieldset class=\"doc-description\">[^\n]+/", "<fieldset class=\"doc-description\">" . $doc["description"] . "</fieldset>", $res);
+					$res = preg_replace("/<p class=\"doc-description\">[^\n]+/", "<p class=\"doc-description\">" . $doc["description"] . "</p>", $res);
 					file_put_contents($docname, $res);
 					$html = $res;
 				}
@@ -197,7 +198,7 @@
 		_log(file_get_contents($tpldir . "help.txt"));
 	}
 	function buildCss($tabName, $fromDoc=0) {
-		system("sass " . $tabName . "/avalon." . $tabName . ".scss " . $tabName . "/avalon." . $tabName . ".css");
+		system("sass " . $tabName . "/avalon." . $tabName . ".scss " . $tabName . "/avalon." . $tabName . ".css --default-encoding utf-8");
 		if(!$fromDoc)_log("build css finished ~ ^_^\n");
 	}
 	function render($arr)
@@ -213,7 +214,7 @@
 			foreach ($methods[0] as $key => $value) {
 				$u = explode("//@method", $value);
 				if(count($u) == 2) {
-					preg_match("/[a-zA-Z0-9_$]+/", trim($u[1]), $names);
+					preg_match("/[a-zA-Z0-9_\.$]+/", trim($u[1]), $names);
 					if(isset($names)) {
 						array_push($marr, array(
 							'name' => $names[0], 
@@ -247,14 +248,21 @@
                         if(count($f1) < 2) {
                             continue;
                         }
+                        $vv = $f1[1];
+                        if(trim($vv) == "{") $vv = "{Object}";
+                        $des = preg_replace("/\/n/", "<br>", $u[1]);
+                        $pname = preg_replace("/[^a-zA-Z0-9_\.$]+/", "", $f1[0]);
+                        if(preg_match("/^[a-zA-Z0-9_]+\./", trim($des), $par)) {
+                            $pname = $par[0] . $pname;
+                        }
 						array_push($optarr, array(
-							"name" => preg_replace("/[^a-zA-Z0-9_$]+/", "", $f1[0]),
-							"default" => preg_replace("/,/", "", $f1[1]),
-							"description" => preg_replace("/\/n/", "<br>", $u[1])
+							"name" => $pname,
+							"default" => preg_replace("/,/", "", $vv),
+							"description" => $des
 						));
 					} else if($type[0] == "//@optMethod") {
 						$s = trim($u[1]);
-						$name = preg_match("/^[a-zA-Z0-9_$]+/", $s, $fname);
+						$name = preg_match("/^[a-zA-Z0-9_\.$]+/", $s, $fname);
 						if($name) {
 							array_push($optMethod, array(
 								"name" => $fname[0],
